@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div>
+    <table>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'ID', 'p.id') }}</th>
+            <th{% if pagination.isSorted(['p.email']) %} class="sorted"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Email', ['p.email']) }}
+            <th{% if pagination.isSorted('p.name') %} class="sorted"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Name', 'p.name') }}
+            <th{% if pagination.isSorted('p.plz') %} class="sorted"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'PLZ', 'p.plz') }}
+            <th{% if pagination.isSorted('p.ort') %} class="sorted"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Ort', 'p.ort') }}
+            <th{% if pagination.isSorted('p.telefon') %} class="sorted"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Telefon', 'p.telefon') }}
+        </th>
+        </tr>
+        {%for user in pagination %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.plz }}</td>
+            <td>{{ user.ort }}</td>
+            <td>{{ user.telefon }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
