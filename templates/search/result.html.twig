@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Email</td>
+                    <td>Name</td>
+                    <td>PLZ</td>
+                    <td>Ort</td>
+                    <td>Telefon</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for email in emails %}
+                <tr>
+                    <td>{{ email.id }}</td>
+                    <td>
+                        <a href="{{ path('user.show', {id: email.id}) }}">{{ email.email }}</a>
+                    </td>
+                    <td>{{ email.name }}</td>
+                    <td>{{ email.plz }}</td>
+                    <td>{{ email.ort }}</td>
+                    <td>{{ email.telefon }}</td>
+                </tr>
+                {% endfor %}
+                {% for name in names %}
+                <tr>
+                    <td>{{ name.id }}</td>
+                    <td>
+                        <a href="{{ path('user.show', {id: name.id}) }}">{{ name.email }}</a>
+                    </td>
+                    <td>{{ name.name }}</td>
+                    <td>{{ name.plz }}</td>
+                    <td>{{ name.ort }}</td>
+                    <td>{{ name.telefon }}</td>
+                </tr>
+                {% endfor %}
+                {% for plz in plzs %}
+                <tr>
+                    <td>{{ plz.id }}</td>
+                    <td>
+                        <a href="{{ path('user.show', {id: plz.id}) }}">{{ plz.email }}</a>
+                    </td>
+                    <td>{{ plz.name }}</td>
+                    <td>{{ plz.plz }}</td>
+                    <td>{{ plz.ort }}</td>
+                    <td>{{ plz.telefon }}</td>
+                </tr>
+                {% endfor %}
+                {% for ort in orte %}
+                <tr>
+                    <td>{{ ort.id }}</td>
+                    <td>
+                        <a href="{{ path('user.show', {id: ort.id}) }}">{{ ort.email }}</a>
+                    </td>
+                    <td>{{ ort.name }}</td>
+                    <td>{{ ort.plz }}</td>
+                    <td>{{ ort.ort }}</td>
+                    <td>{{ ort.telefon }}</td>
+                </tr>
+                {% endfor %}
+                {% for telefon in telefone %}
+                <tr>
+                    <td>{{ telefon.id }}</td>
+                    <td>
+                        <a href="{{ path('user.show', {id: telefon.id}) }}">{{ telefon.email }}</a>
+                    </td>
+                    <td>{{ telefon.name }}</td>
+                    <td>{{ telefon.plz }}</td>
+                    <td>{{ telefon.ort }}</td>
+                    <td>{{ telefon.telefon }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

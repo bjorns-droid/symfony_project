@@ -1,5 +1,70 @@
 {% extends ('base.html.twig') %}
 
 {% block body %}
-    <h1>{{ user.name }}</h1>
+    <br>
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {# {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }} #}
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Email</td>
+                    <td>Name</td>
+                    <td>PLZ</td>
+                    <td>Ort</td>
+                    <td>Telefon</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.plz }}</td>
+                    <td>{{ user.ort }}</td>
+                    <td>{{ user.telefon }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% for message in app.flashes('update_success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {# <button type="button" class="btn btn-danger float-end" data-toggle="modal" data-target="#deleteModal">
+        Löschen
+    </button> #}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            {# {{form_start(form, {'action': 'delete'})}} #}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt m-r-10"></i>Sicher?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Damit löschst du den User aus der Datenbank. Fortfahren?</p>
+                        {# {{form_widget(form)}} #}
+                    <div class="modal-footer">
+                    </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                            <a href="{{ path('user.delete', {id: user.id}) }}" class="btn btn-danger">Löschen</a>
+                    </div>
+                    {# {{form_end(form)}} #}
+            </div>    
+        </div>
+    </div>
+    {# <script>
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+    </script> #}
 {% endblock %}

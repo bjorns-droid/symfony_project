@@ -3,53 +3,31 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Filter\SimpleSearchFilter;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 // use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+
+// use App\Filter\SimpleSearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+
+//  #[ApiResource]
+//  #[ApiFilter(SimpleSearchFilter::class, properties:["name", "username", "email"])]
+//  #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'name' => 'partial'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
-    //     /**
-    //  * @ORM\ManyToMany(targetEntity="Rolle", inversedBy="users")
-    //  *
-    //  */
-    // private $rollen;
-
-    // public function __construct()
-    // {
-    //     $this->rollen = new ArrayCollection();
-    // }
-
-    // public function getRollen()
-    // {
-    //     return $this->rollen->toArray();
-    // }
-
-    // /**
-    //  * @see \Serializable::serialize()
-    //  */
-    // public function serialize()
-    // {
-    //     return serialize(array(
-    //         $this->id,
-    //     ));
-    // }
-
-    // /**
-    //  * @see \Serializable::unserialize()
-    //  */
-    // public function unserialize($serialized)
-    // {
-    //     list (
-    //         $this->id,
-    //     ) = unserialize($serialized);
-    // }
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -114,11 +92,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private $password;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $act_code;
-
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToMany(targetEntity: Roles::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private $rolesFK;
+
+    public function __construct() {
+        $this->rolesFK = new ArrayCollection();
+    }
+
+    public function getRolesFK(): Collection
+    {
+        return $this->rolesFK;
+    }
+
+    public function addRole(Roles $role): self
+    {
+        if (!$this->rolesFK->contains($role)) {
+            $this->rolesFK[] = $role;
+            $role->setUser($this);
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -137,21 +134,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getActCode(): ?string
-    {
-        return $this->act_code;
-    }
-
-    public function setActCode(string $act_code): self
-    {
-        $this->act_code = $act_code;
-
-        return $this;
-    }
-
     public function __toString(): string
     {
-        return $this->getName();
+        return $this->getId();
     }
 
     /**

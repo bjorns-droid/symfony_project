@@ -1,5 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h3>Hallo</h3>
+    <br>
+    {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {% for message in app.flashes('update_success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt m-r-10"></i>Sicher?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Damit wird dein Account gelöscht und du wirst zum Login weitergeleitet. Fortfahren?</p>
+                    <div class="modal-footer">
+                    </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                            <a href="{{ path('user.delete', {id: user.id}) }}" class="btn btn-danger">Löschen</a>
+                    </div>
+            </div>    
+        </div>
+    </div>
 {% endblock %}

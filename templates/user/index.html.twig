@@ -1,38 +1,13 @@
 {% extends ('base.html.twig') %}
 
 {% block body %}
-    <h2> List of all users</h2>
-    {# <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>Email</td>
-                <td>Name</td>
-                <td>PLZ</td>
-                <td>Ort</td>
-                <td>Telefon</td>
-                <td>Actions</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>
-                    <a href="{{ path('user.show', {id: user.id}) }}">{{ user.email }}</a>
-                </td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.plz }}</td>
-                <td>{{ user.ort }}</td>
-                <td>{{ user.telefon }}</td>
-                <td>
-                    <a class="text-danger" href="{{ path('user.delete', {id: user.id}) }}">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table> #}
+    <h2>Deine Seite</h2>
     {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('update_success') %}
         <div class="alert alert-success">
             {{ message }}
         </div>

@@ -65,29 +65,60 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findByName($value)
     {
+        // echo $value;
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('u.name LIKE :val')
+            ->setParameter('val', '%'.strtolower($value).'%')
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?User
+    public function findByEmail($value)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('u.email LIKE :val')
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('u.id', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
+    public function findByPlz($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.plz LIKE :val')
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByOrt($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.ort LIKE :val')
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByTelefon($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.telefon LIKE :val')
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 }
